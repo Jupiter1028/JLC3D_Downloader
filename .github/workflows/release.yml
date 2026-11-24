@@ -1,0 +1,43 @@
+name: Build Windows release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pyinstaller
+
+      - name: Build exe
+        run: >
+          pyinstaller --noconfirm --clean --onefile --windowed
+          --name "JLC3D-Downloader"
+          --icon assets/app.ico
+          --add-data "assets;assets"
+          JLC3DDownload.py
+
+      - name: Rename artifact
+        run: Move-Item "dist/JLC3D-Downloader.exe" "dist/JLC3D-Downloader-${{ github.ref_name }}-win64.exe"
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/JLC3D-Downloader-*-win64.exe
+          generate_release_notes: true
