@@ -6,6 +6,13 @@
 
 当前版本 **2.1.1**：重写了网络层与下载流程，直接读取官方元件接口里的 3D 模型关联，请求更少、更稳定；界面改为大标题栏 + 卡片式布局，并新增「帮助 → 使用说明」。
 
+## 下载
+
+- **普通用户**：从 [Releases](https://github.com/Jupiter1028/JLC3D_Downloader/releases/latest) 下载 `JLC3D-Downloader-*-win64.exe`，双击即可运行，无需安装 Python。
+- **开发者**：克隆仓库后按下方「安装与运行」从源码启动。
+
+> 仓库只保留源码与图标资源，可执行文件统一放在 Releases 附件中，避免仓库体积随版本膨胀。
+
 ## 功能
 
 - 输入立创编号一键下载 `.step` 文件，回车即可开始
@@ -32,7 +39,7 @@ pip install -r requirements.txt
 python JLC3DDownload.py
 ```
 
-也可以直接运行仓库中的 `嘉立创3D下载器.exe`（无需安装 Python）。
+或从 [Releases](https://github.com/Jupiter1028/JLC3D_Downloader/releases/latest) 下载打包好的 exe（无需安装 Python）。
 
 ## 使用
 
@@ -84,6 +91,12 @@ pyinstaller --noconfirm --clean --onefile --windowed --name "嘉立创3D下载�
 ```
 
 产物在 `dist\嘉立创3D下载器.exe`。
+
+### 发布新版本
+
+1. 更新 `VERSION`、README 的版本记录并提交；
+2. 打标签并推送：`git tag v2.1.2 && git push origin v2.1.2`；
+3. GitHub Actions 会自动在 Windows 上构建 exe，并作为附件上传到对应 Release（见 `.github/workflows/release.yml`）。
 
 ## 自检与测试
 
